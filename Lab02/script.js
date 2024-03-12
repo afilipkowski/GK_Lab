@@ -151,6 +151,7 @@ var angleZ = 0.0;
 var angleY = 0.0;
 var angleX = 0.0;
 var tz = -5.0;
+var tx = 0.1;
 
 function Tick()
 {  
@@ -189,10 +190,18 @@ function Tick()
   0,0,tz,1
   ];
 
+  let uMVTranslateX = [
+    1,0,0,0,
+    0,1,0,0,
+    0,0,1,0,
+    tx,0,0,1
+    ];
+
   uMVMatrix = MatrixMul(uMVMatrix,uMVRotX);
   uMVMatrix = MatrixMul(uMVMatrix,uMVRotY);
   uMVMatrix = MatrixMul(uMVMatrix,uMVRotZ);
   uMVMatrix = MatrixMul(uMVMatrix,uMVTranslateZ);
+  uMVMatrix = MatrixMul(uMVMatrix,uMVTranslateX);
   //alert(uPMatrix);
   
   //Render Scene
@@ -218,7 +227,7 @@ function Tick()
   
   gl.drawArrays(gl.TRIANGLES, 0, vertexPositionBuffer.numItems*vertexPositionBuffer.itemSize); //Faktyczne wywołanie rendrowania
    
-  setTimeout(Tick,100);
+  setTimeout(Tick,1);
 }
 function handlekeydown(e)
 {
@@ -228,6 +237,8 @@ function handlekeydown(e)
  if(e.keyCode==65) angleY=angleY-1.0;
  if(e.keyCode==81) angleZ=angleZ+1.0;
  if(e.keyCode==69) angleZ=angleZ-1.0;
+ if(e.keyCode==37) tx=tx-0.05;
+ if(e.keyCode==39) tx=tx+0.05;
  //alert(e.keyCode);
  //alert(angleX);
 }
